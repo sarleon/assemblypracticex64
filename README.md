@@ -1,6 +1,8 @@
 # assemblypracticex64
 an 64-bit version of assembly tutorial 
+
 [assemblytutorials](http://asmtutor.com/)
+
 [assemblytutorials github](https://github.com/DGivney/assemblytutorials)
 
 intel syntax,x86_64 platform 
