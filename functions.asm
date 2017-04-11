@@ -16,6 +16,7 @@ finished:
 
 
 sprint:
+        push    rcx
         push    rdx
         push    rsi
         push    rdi
@@ -30,9 +31,11 @@ sprint:
         mov     rdi , 1
         syscall
 
-        pop     rsi
+
         pop     rdi
+        pop     rsi
         pop     rdx
+        pop     rcx
         ret
 
 quit:
@@ -45,6 +48,47 @@ sprintLF:
 
         push    rax
         mov     rax  , 0Ah
+        push    rax
+        mov     rax , rsp
+        call    sprint
+        pop     rax
+        pop     rax
+        ret
+iprint:                         ;parameter in rax
+        push    rax
+        push    rcx
+        push    rdx
+        push    rsi
+        mov     rcx , 0
+divideLoop:
+        inc     rcx             ;count byte to print
+        mov     rdx , 0         ;empty  rdx
+        mov     rsi , 10        ;mov rsi to 10
+        idiv    rsi             ;divide rax by rsi,store the result to rax , the remainder to rdx
+        add     rdx , 48
+        push    rdx
+        cmp     rax , 0         ;if the quotient is 0 ,the loop is stop and turn to print
+        jnz     divideLoop
+printLoop:
+        dec     rcx
+        mov     rax , rsp
+        call    sprint          ;print
+        pop     rax             ;parameter pop out stack
+        cmp     rcx , 0
+        jnz     printLoop
+
+        pop     rsi
+        pop     rdx
+        pop     rcx
+        pop     rax
+
+        ret
+
+iprintLF:
+        call    iprint
+
+        push    rax
+        mov     rax , 0Ah
         push    rax
         mov     rax , rsp
         call    sprint
